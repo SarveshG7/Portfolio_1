@@ -33,7 +33,6 @@
       overflow-x: hidden;
     }
 
-    /* NOISE TEXTURE */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -41,7 +40,6 @@
       pointer-events: none; z-index: 0; opacity: 0.5;
     }
 
-    /* NAV */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
       display: flex; justify-content: space-between; align-items: center;
@@ -70,7 +68,6 @@
     }
     nav ul a:hover { color: var(--accent); }
 
-    /* HERO */
     .hero {
       min-height: 100vh;
       display: flex; align-items: center;
@@ -142,7 +139,6 @@
     }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* SECTIONS */
     section { padding: 6rem 5%; position: relative; }
     section:nth-child(even) { background: var(--surface); }
 
@@ -160,7 +156,6 @@
       line-height: 1.1;
     }
 
-    /* ABOUT */
     .about-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
       align-items: center; max-width: 1000px;
@@ -186,7 +181,6 @@
     }
     .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
 
-    /* SKILLS */
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -217,12 +211,13 @@
     }
     .skill-group:hover .skill-tag { border-color: rgba(124,111,255,0.3); }
 
-    /* EXPERIENCE */
+    /* EXPERIENCE — fixed for mobile */
     .exp-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 10px; padding: 2.5rem;
       max-width: 900px; margin-bottom: 2rem;
-      position: relative; overflow: hidden;
+      position: relative;
+      /* REMOVED overflow: hidden — was clipping content on mobile */
       transition: border-color 0.2s;
     }
     .exp-card:hover { border-color: var(--accent); }
@@ -231,12 +226,13 @@
       content: '';
       position: absolute; left: 0; top: 0; bottom: 0;
       width: 3px; background: var(--accent);
+      border-radius: 10px 0 0 10px;
     }
 
     .exp-header {
       display: flex; justify-content: space-between;
       align-items: flex-start; margin-bottom: 1.75rem;
-      flex-wrap: wrap; gap: 0.5rem;
+      flex-wrap: wrap; gap: 0.75rem;
     }
 
     .exp-role {
@@ -249,6 +245,8 @@
       font-size: 0.75rem; color: var(--muted);
       padding: 0.3rem 0.8rem; border: 1px solid var(--border);
       border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .exp-items { list-style: none; }
@@ -264,7 +262,6 @@
     }
     .exp-items strong { color: var(--text); }
 
-    /* PROJECTS */
     .projects-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 1.5rem; max-width: 1100px;
@@ -325,7 +322,6 @@
     }
     .project-link:hover { color: var(--accent3); }
 
-    /* CONTACT */
     .contact-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.25rem; max-width: 800px;
@@ -350,7 +346,6 @@
     }
     .contact-value { font-size: 0.9rem; color: var(--accent); }
 
-    /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
       padding: 2rem 5%; text-align: center;
@@ -361,7 +356,6 @@
       font-size: 0.75rem; color: var(--muted);
     }
 
-    /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
@@ -376,6 +370,50 @@
       nav ul { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       h1 { font-size: 2.8rem; }
+
+      /* Experience mobile fixes */
+      .exp-card {
+        padding: 1.5rem 1.25rem 1.5rem 1.5rem;
+      }
+      .exp-role {
+        font-size: 1.05rem;
+        line-height: 1.4;
+      }
+      .exp-header {
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-bottom: 1.25rem;
+      }
+      .exp-period {
+        align-self: flex-start;
+      }
+      .exp-items li {
+        font-size: 0.88rem;
+        gap: 0.65rem;
+      }
+
+      /* Projects mobile fix */
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Contact mobile */
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      section {
+        padding: 4rem 5%;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      .exp-card {
+        padding: 1.25rem 1rem 1.25rem 1.25rem;
+      }
     }
   </style>
 </head>
@@ -392,7 +430,6 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
@@ -414,7 +451,6 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
   <section id="about">
     <div class="section-label">// about</div>
     <h2>Who I Am</h2>
@@ -455,7 +491,6 @@
     </div>
   </section>
 
-  <!-- SKILLS -->
   <section id="skills">
     <div class="section-label">// skills</div>
     <h2>Technical Stack</h2>
@@ -509,12 +544,10 @@
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
   <section id="experience">
     <div class="section-label">// experience</div>
     <h2>Work Experience</h2>
 
-    <!-- Unicommerce -->
     <div class="exp-card">
       <div class="exp-header">
         <div>
@@ -548,7 +581,6 @@
       </ul>
     </div>
 
-    <!-- Anantar -->
     <div class="exp-card">
       <div class="exp-header">
         <div>
@@ -571,7 +603,6 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects">
     <div class="section-label">// projects</div>
     <h2>What I've Built</h2>
@@ -630,7 +661,6 @@
     </div>
   </section>
 
-  <!-- CONTACT INFO-->
   <section id="contact">
     <div class="section-label">// contact</div>
     <h2>Let's Connect</h2>
