@@ -211,56 +211,57 @@
     }
     .skill-group:hover .skill-tag { border-color: rgba(124,111,255,0.3); }
 
-    /* EXPERIENCE — fixed for mobile */
+    /* EXPERIENCE — simple mobile-first */
     .exp-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 2.5rem;
-      max-width: 900px; margin-bottom: 2rem;
-      position: relative;
-      /* REMOVED overflow: hidden — was clipping content on mobile */
+      border-radius: 10px; padding: 1.5rem;
+      max-width: 900px; margin-bottom: 1.5rem;
       transition: border-color 0.2s;
     }
     .exp-card:hover { border-color: var(--accent); }
 
-    .exp-card::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 3px; background: var(--accent);
-      border-radius: 10px 0 0 10px;
+    .exp-meta {
+      display: flex; flex-wrap: wrap;
+      align-items: center; gap: 0.5rem;
+      margin-bottom: 0.35rem;
     }
-
-    .exp-header {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; margin-bottom: 1.75rem;
-      flex-wrap: wrap; gap: 0.75rem;
-    }
-
-    .exp-role {
+    .exp-company {
       font-family: 'Syne', sans-serif;
-      font-size: 1.25rem; font-weight: 700;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--accent);
     }
-    .exp-company { color: var(--accent); }
+    .exp-role {
+      font-size: 0.82rem; color: var(--muted);
+    }
     .exp-period {
       font-family: 'DM Mono', monospace;
-      font-size: 0.75rem; color: var(--muted);
-      padding: 0.3rem 0.8rem; border: 1px solid var(--border);
-      border-radius: 4px;
+      font-size: 0.7rem; color: var(--muted);
+      background: var(--surface2);
+      padding: 0.2rem 0.6rem; border-radius: 4px;
+      margin-left: auto;
       white-space: nowrap;
-      flex-shrink: 0;
+    }
+    .exp-stack {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; color: var(--muted);
+      margin-bottom: 1rem;
+      opacity: 0.7;
     }
 
-    .exp-items { list-style: none; }
-    .exp-items li {
-      padding: 0.65rem 0; color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      display: flex; gap: 0.9rem; line-height: 1.7;
+    .exp-points { list-style: none; }
+    .exp-points li {
+      font-size: 0.88rem; color: var(--muted);
+      padding: 0.4rem 0;
+      display: flex; gap: 0.65rem;
+      line-height: 1.55;
+      border-bottom: 1px solid rgba(42,42,56,0.5);
     }
-    .exp-items li:last-child { border-bottom: none; }
-    .exp-items li::before {
-      content: '▸'; color: var(--accent);
-      flex-shrink: 0; margin-top: 0.05rem;
+    .exp-points li:last-child { border-bottom: none; padding-bottom: 0; }
+    .exp-points li::before {
+      content: '·'; color: var(--accent);
+      font-size: 1.3rem; line-height: 1.1;
+      flex-shrink: 0;
     }
-    .exp-items strong { color: var(--text); }
 
     .projects-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -371,26 +372,9 @@
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       h1 { font-size: 2.8rem; }
 
-      /* Experience mobile fixes */
-      .exp-card {
-        padding: 1.5rem 1.25rem 1.5rem 1.5rem;
-      }
-      .exp-role {
-        font-size: 1.05rem;
-        line-height: 1.4;
-      }
-      .exp-header {
-        flex-direction: column;
-        gap: 0.6rem;
-        margin-bottom: 1.25rem;
-      }
-      .exp-period {
-        align-self: flex-start;
-      }
-      .exp-items li {
-        font-size: 0.88rem;
-        gap: 0.65rem;
-      }
+      /* Experience mobile */
+      .exp-period { margin-left: 0; }
+      .exp-meta { flex-wrap: wrap; gap: 0.4rem; }
 
       /* Projects mobile fix */
       .projects-grid {
@@ -549,56 +533,30 @@
     <h2>Work Experience</h2>
 
     <div class="exp-card">
-      <div class="exp-header">
-        <div>
-          <div class="exp-role"><span class="exp-company">Unicommerce</span> — Software Engineering Intern</div>
-          <div style="font-size:0.82rem; color:var(--muted); margin-top:0.25rem;">Java · Spring · Hibernate · MySQL · Jenkins · Python · MongoDB</div>
-        </div>
-        <div class="exp-period">Jan 2026 – Present</div>
+      <div class="exp-meta">
+        <span class="exp-company">Unicommerce</span>
+        <span class="exp-role">Software Engineering Intern</span>
+        <span class="exp-period">Jan 2026 – Present</span>
       </div>
-      <ul class="exp-items">
-        <li>
-          <strong>Designed and implemented</strong> the <strong>Hold Shipment Before Manifest</strong> feature with
-          facility-level configuration, a <strong>batch-based transactional API</strong> for bulk shipment updates,
-          and <strong>event-driven cancellation handling</strong> ensuring real-time state transitions without
-          dependency on cron workflows.
-        </li>
-        <li>
-          <strong>Resolved</strong> a critical <strong>multi-facility shipment sync bug</strong> using Java, Spring,
-          and Hibernate by fixing incorrect <strong>UserContext</strong> handling in a multi-SOI loop, improving
-          data consistency and eliminating redundant MySQL queries.
-        </li>
-        <li>
-          <strong>Fixed</strong> complex <strong>order lifecycle bugs</strong> (SOI limit validation, invoice
-          generation, cascade deletes) by deep-diving into business logic and database constraints across the
-          <strong>OMS sale order lifecycle</strong> including invoicing and shipment flows.
-        </li>
-        <li>
-          <strong>Automated multi-tenant shipping provider onboarding</strong> via a parameterized
-          <strong>Jenkins</strong> job using Python, SQL, and MongoDB — dynamically resolving MySQL host and
-          executing bulk inserts, reducing manual effort and enabling scalable tenant configuration.
-        </li>
+      <div class="exp-stack">Java · Spring · Hibernate · MySQL · Jenkins · Python · MongoDB</div>
+      <ul class="exp-points">
+        <li>Built Hold Shipment Before Manifest feature with batch API and event-driven cancellation handling</li>
+        <li>Fixed multi-facility shipment sync bug caused by incorrect UserContext in multi-SOI loop</li>
+        <li>Resolved order lifecycle bugs across SOI validation, invoice generation, and cascade deletes</li>
+        <li>Automated multi-tenant shipping provider onboarding via parameterized Jenkins job — cut manual effort significantly</li>
       </ul>
     </div>
 
     <div class="exp-card">
-      <div class="exp-header">
-        <div>
-          <div class="exp-role"><span class="exp-company">Anantar</span> — Software Development Engineer Intern</div>
-          <div style="font-size:0.82rem; color:var(--muted); margin-top:0.25rem;">AWS Lambda · S3 · OAuth2 · RBAC · REST APIs</div>
-        </div>
-        <div class="exp-period">May 2024 – Jul 2024</div>
+      <div class="exp-meta">
+        <span class="exp-company">Anantar</span>
+        <span class="exp-role">SDE Intern</span>
+        <span class="exp-period">May – Jul 2024</span>
       </div>
-      <ul class="exp-items">
-        <li>
-          Built an <strong>event-driven file processing pipeline</strong> using AWS Lambda with S3 pre-signed
-          uploads, enabling direct client-to-S3 transfers and automatic compression — reducing storage footprint
-          by <strong>45%</strong> and backend bandwidth usage by <strong>70%</strong>.
-        </li>
-        <li>
-          Implemented <strong>OAuth2 authentication</strong> and <strong>Role-Based Access Control (RBAC)</strong>
-          for protected APIs, securing authorization across <strong>20+ backend routes</strong>.
-        </li>
+      <div class="exp-stack">AWS Lambda · S3 · OAuth2 · RBAC · REST APIs</div>
+      <ul class="exp-points">
+        <li>Built event-driven file pipeline with S3 pre-signed uploads and auto-compression — cut storage by 45%, bandwidth by 70%</li>
+        <li>Implemented OAuth2 + RBAC across 20+ protected API routes</li>
       </ul>
     </div>
   </section>
