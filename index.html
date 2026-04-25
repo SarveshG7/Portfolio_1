@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sarvesh Gore | Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #18181f;
+      --border: #2a2a38;
+      --accent: #7c6fff;
+      --accent2: #ff6f91;
+      --accent3: #6fffd4;
+      --text: #e8e8f0;
+      --muted: #7070a0;
+      --card: #14141c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NOISE TEXTURE */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 5%;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav ul a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem; letter-spacing: 0.08em;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 5%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(124,111,255,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(111,255,212,0.06) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.2;
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem; letter-spacing: 0.15em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-tag::before {
+      content: ''; display: block;
+      width: 2rem; height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.0; letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 .line2 { color: var(--accent); }
+
+    .hero-desc {
+      color: var(--muted); font-size: 1.05rem; max-width: 520px;
+      margin-bottom: 2.5rem; line-height: 1.8;
+    }
+
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem; letter-spacing: 0.06em;
+      padding: 0.85rem 1.8rem; border-radius: 4px;
+      text-decoration: none; transition: all 0.2s;
+      cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+    }
+    .btn-primary:hover { background: #9d8fff; transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border); color: var(--text);
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SECTIONS */
+    section { padding: 6rem 5%; position: relative; }
+    section:nth-child(even) { background: var(--surface); }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.15em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.8rem);
+      letter-spacing: -0.025em; margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: center; max-width: 1000px;
+    }
+
+    .about-text p { color: var(--muted); margin-bottom: 1.25rem; line-height: 1.85; }
+
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .stat-card:hover { border-color: var(--accent); }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; max-width: 1100px;
+    }
+
+    .skill-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-group:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    .skill-group-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.12em;
+      color: var(--accent3); text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      font-size: 0.8rem; color: var(--text);
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 4px; padding: 0.3rem 0.7rem;
+      margin: 0.25rem 0.2rem;
+      transition: border-color 0.2s;
+    }
+    .skill-group:hover .skill-tag { border-color: rgba(124,111,255,0.3); }
+
+    /* EXPERIENCE */
+    .exp-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 2.5rem;
+      max-width: 900px; margin-bottom: 2rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .exp-card:hover { border-color: var(--accent); }
+
+    .exp-card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--accent);
+    }
+
+    .exp-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 1.75rem;
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+
+    .exp-role {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem; font-weight: 700;
+    }
+    .exp-company { color: var(--accent); }
+    .exp-period {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem; color: var(--muted);
+      padding: 0.3rem 0.8rem; border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .exp-items { list-style: none; }
+    .exp-items li {
+      padding: 0.65rem 0; color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 0.9rem; line-height: 1.7;
+    }
+    .exp-items li:last-child { border-bottom: none; }
+    .exp-items li::before {
+      content: '▸'; color: var(--accent);
+      flex-shrink: 0; margin-top: 0.05rem;
+    }
+    .exp-items strong { color: var(--text); }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem; max-width: 1100px;
+    }
+
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 2rem;
+      transition: all 0.25s; position: relative;
+      overflow: hidden;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(124,111,255,0.08) 0%, transparent 70%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-card:hover::after { opacity: 1; }
+
+    .project-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 0.75rem;
+    }
+    .project-type.fullstack { color: var(--accent2); }
+    .project-type.systems { color: var(--accent3); }
+    .project-type.design { color: var(--accent); }
+
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-stack {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .project-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; line-height: 1.7; }
+
+    .project-items { list-style: none; margin-bottom: 1.5rem; }
+    .project-items li {
+      font-size: 0.85rem; color: var(--muted);
+      padding: 0.3rem 0;
+      display: flex; gap: 0.6rem; line-height: 1.6;
+    }
+    .project-items li::before { content: '→'; color: var(--accent3); flex-shrink: 0; }
+
+    .project-links { display: flex; gap: 1rem; }
+    .project-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem; color: var(--accent);
+      text-decoration: none; letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent3); }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem; max-width: 800px;
+    }
+
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.75rem;
+      text-decoration: none; color: var(--text);
+      transition: all 0.2s; display: block;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    .contact-icon {
+      font-size: 1.5rem; margin-bottom: 0.75rem;
+    }
+    .contact-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .contact-value { font-size: 0.9rem; color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 5%; text-align: center;
+      background: var(--bg);
+    }
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem; color: var(--muted);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease both; }
+    .fade-up-1 { animation-delay: 0.1s; }
+    .fade-up-2 { animation-delay: 0.25s; }
+    .fade-up-3 { animation-delay: 0.4s; }
+    .fade-up-4 { animation-delay: 0.55s; }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      h1 { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">SG<span>.</span></a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag fade-up fade-up-1">Backend Engineer · Problem Solver</div>
+      <h1 class="fade-up fade-up-2">
+        Sarvesh<br>
+        <span class="line2">Gore.</span>
+      </h1>
+      <p class="hero-desc fade-up fade-up-3">
+        Backend-focused Software Engineer building scalable systems with Java and Spring.
+        Strong foundation in DSA, database optimization, and high-performance API design.
+      </p>
+      <div class="hero-links fade-up fade-up-4">
+        <a class="btn btn-primary" href="#experience">View Experience</a>
+        <a class="btn btn-outline" href="#contact">Get in Touch</a>
+        <a class="btn btn-outline" href="https://github.com/SarveshG7" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">// about</div>
+    <h2>Who I Am</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a Computer Science undergraduate at LNMIIT (2022–26), currently interning at
+          <strong>Unicommerce</strong> as a Software Engineering Intern working on production-grade
+          backend systems in Java and Spring.
+        </p>
+        <p>
+          I specialize in backend engineering — designing APIs, debugging complex business logic,
+          optimizing database queries, and building event-driven workflows that scale.
+        </p>
+        <p>
+          Outside work, I'm an avid marathon runner — bringing the same discipline and persistence
+          to both code and sport.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">400+</div>
+          <div class="stat-label">DSA problems solved across LeetCode, GFG & Coding Ninjas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Competitive programming problems on Codeforces</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Production internships with real-world system impact</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">🏃</div>
+          <div class="stat-label">Marathon runner — perseverance on and off the keyboard</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">// skills</div>
+    <h2>Technical Stack</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Languages</div>
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Python</span>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Backend</div>
+        <span class="skill-tag">Spring Boot</span>
+        <span class="skill-tag">Spring MVC</span>
+        <span class="skill-tag">Hibernate (JPA)</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">Express.js</span>
+        <span class="skill-tag">REST APIs</span>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Databases</div>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">MongoDB</span>
+        <span class="skill-tag">Redis</span>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Cloud & DevOps</div>
+        <span class="skill-tag">AWS (S3)</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Jenkins</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">Git</span>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Frontend</div>
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">Tailwind</span>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">CS Fundamentals</div>
+        <span class="skill-tag">DSA</span>
+        <span class="skill-tag">OOPs</span>
+        <span class="skill-tag">OS</span>
+        <span class="skill-tag">DBMS</span>
+        <span class="skill-tag">CN</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">// experience</div>
+    <h2>Work Experience</h2>
+
+    <!-- Unicommerce -->
+    <div class="exp-card">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role"><span class="exp-company">Unicommerce</span> — Software Engineering Intern</div>
+          <div style="font-size:0.82rem; color:var(--muted); margin-top:0.25rem;">Java · Spring · Hibernate · MySQL · Jenkins · Python · MongoDB</div>
+        </div>
+        <div class="exp-period">Jan 2026 – Present</div>
+      </div>
+      <ul class="exp-items">
+        <li>
+          <strong>Designed and implemented</strong> the <strong>Hold Shipment Before Manifest</strong> feature with
+          facility-level configuration, a <strong>batch-based transactional API</strong> for bulk shipment updates,
+          and <strong>event-driven cancellation handling</strong> ensuring real-time state transitions without
+          dependency on cron workflows.
+        </li>
+        <li>
+          <strong>Resolved</strong> a critical <strong>multi-facility shipment sync bug</strong> using Java, Spring,
+          and Hibernate by fixing incorrect <strong>UserContext</strong> handling in a multi-SOI loop, improving
+          data consistency and eliminating redundant MySQL queries.
+        </li>
+        <li>
+          <strong>Fixed</strong> complex <strong>order lifecycle bugs</strong> (SOI limit validation, invoice
+          generation, cascade deletes) by deep-diving into business logic and database constraints across the
+          <strong>OMS sale order lifecycle</strong> including invoicing and shipment flows.
+        </li>
+        <li>
+          <strong>Automated multi-tenant shipping provider onboarding</strong> via a parameterized
+          <strong>Jenkins</strong> job using Python, SQL, and MongoDB — dynamically resolving MySQL host and
+          executing bulk inserts, reducing manual effort and enabling scalable tenant configuration.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Anantar -->
+    <div class="exp-card">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role"><span class="exp-company">Anantar</span> — Software Development Engineer Intern</div>
+          <div style="font-size:0.82rem; color:var(--muted); margin-top:0.25rem;">AWS Lambda · S3 · OAuth2 · RBAC · REST APIs</div>
+        </div>
+        <div class="exp-period">May 2024 – Jul 2024</div>
+      </div>
+      <ul class="exp-items">
+        <li>
+          Built an <strong>event-driven file processing pipeline</strong> using AWS Lambda with S3 pre-signed
+          uploads, enabling direct client-to-S3 transfers and automatic compression — reducing storage footprint
+          by <strong>45%</strong> and backend bandwidth usage by <strong>70%</strong>.
+        </li>
+        <li>
+          Implemented <strong>OAuth2 authentication</strong> and <strong>Role-Based Access Control (RBAC)</strong>
+          for protected APIs, securing authorization across <strong>20+ backend routes</strong>.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">// projects</div>
+    <h2>What I've Built</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-type systems">System Design</div>
+        <div class="project-title">Rate Limiter Service</div>
+        <div class="project-stack">C++ · Strategy Pattern · Factory Pattern</div>
+        <div class="project-desc">A configurable API rate limiting service supporting multiple algorithms with O(1) request validation for high-throughput control.</div>
+        <ul class="project-items">
+          <li>Fixed Window, Sliding Window, Token Bucket, and Leaky Bucket algorithms</li>
+          <li>Modular architecture using Strategy and Factory design patterns</li>
+          <li>Config-driven policy loading with optimized in-memory request path</li>
+          <li>Eliminates runtime parsing overhead to reduce latency</li>
+        </ul>
+        <div class="project-links">
+          <a class="project-link" href="#">Design Doc ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-type fullstack">Full Stack</div>
+        <div class="project-title">TalkHub</div>
+        <div class="project-stack">React · Node.js · Express · MongoDB · Tailwind CSS</div>
+        <div class="project-desc">A unified platform streamlining event management, user interaction, and document sharing across students, professors, and admins.</div>
+        <ul class="project-items">
+          <li>JWT-based authentication with role-based access control</li>
+          <li>Lecture-mapped discussion forums with nested comment threads</li>
+          <li>Email OTP authentication with expiry enforcement</li>
+          <li>Event proposals, approvals, and document sharing with access controls</li>
+        </ul>
+        <div class="project-links">
+          <a class="project-link" href="https://talkhub-three.vercel.app/" target="_blank">Live Demo ↗</a>
+          <a class="project-link" href="https://github.com/ayush121314/TalkHub" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-type fullstack">Full Stack</div>
+        <div class="project-title">Job Space</div>
+        <div class="project-stack">React · Node.js · Express · MongoDB · Tailwind CSS</div>
+        <div class="project-desc">An online job board connecting job seekers and employers with a streamlined end-to-end hiring workflow.</div>
+        <ul class="project-items">
+          <li>Dual-role authentication for Recruiters and Applicants</li>
+          <li>Company registration, job posting, and application management</li>
+          <li>Applicants can browse, apply, and track application status</li>
+          <li>Reduced manual intervention in job management flow</li>
+        </ul>
+        <div class="project-links">
+          <a class="project-link" href="https://job-space-project-frontend.vercel.app/" target="_blank">Live Demo ↗</a>
+          <a class="project-link" href="https://github.com/SarveshG7/Job-Space" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">// contact</div>
+    <h2>Let's Connect</h2>
+    <p style="color:var(--muted); margin-bottom:2.5rem; max-width:480px; line-height:1.8;">
+      Open to full-time SWE roles and interesting backend projects. Reach out anytime.
+    </p>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:mastersarveshgore@gmail.com">
+        <div class="contact-icon">✉</div>
+        <div class="contact-type">Email</div>
+        <div class="contact-value">mastersarveshgore@gmail.com</div>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/sarvesh-gore-01b725277/" target="_blank">
+        <div class="contact-icon">in</div>
+        <div class="contact-type">LinkedIn</div>
+        <div class="contact-value">sarvesh-gore-01b725277</div>
+      </a>
+      <a class="contact-card" href="https://github.com/SarveshG7" target="_blank">
+        <div class="contact-icon">⌥</div>
+        <div class="contact-type">GitHub</div>
+        <div class="contact-value">github.com/SarveshG7</div>
+      </a>
+      <a class="contact-card" href="tel:+918788336616">
+        <div class="contact-icon">☏</div>
+        <div class="contact-type">Phone</div>
+        <div class="contact-value">+91 87883 36616</div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>Sarvesh Gore · LNMIIT B.Tech CSE 2022–26 · Built with care</p>
+  </footer>
+
+</body>
+</html>
